@@ -562,6 +562,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
     whatsIncluded: Schema.Attribute.Blocks;
     category: Schema.Attribute.Enumeration<['TECH', 'MARKTING', 'SECURITY']>;
     orders: Schema.Attribute.Relation<'manyToMany', 'api::order.order'>;
+    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -574,6 +575,36 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::product.product'
     >;
+  };
+}
+
+export interface ApiReviewReview extends Struct.CollectionTypeSchema {
+  collectionName: 'reviews';
+  info: {
+    singularName: 'review';
+    pluralName: 'reviews';
+    displayName: 'review';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    rating: Schema.Attribute.Integer & Schema.Attribute.Required;
+    comment: Schema.Attribute.String & Schema.Attribute.Required;
+    product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
+    userName: Schema.Attribute.String;
+    userId: Schema.Attribute.String & Schema.Attribute.Unique;
+    imgUrl: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
   };
 }
 
@@ -955,6 +986,7 @@ declare module '@strapi/strapi' {
       'api::cart.cart': ApiCartCart;
       'api::order.order': ApiOrderOrder;
       'api::product.product': ApiProductProduct;
+      'api::review.review': ApiReviewReview;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;
