@@ -7,7 +7,7 @@ export default [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          "connect-src": ["'self'", "https:"],
+          "connect-src": ["'self'", "https:", "https://clerk.dev"], // السماح لطلبات Clerk
           "img-src": ["'self'", "data:", "blob:", "res.cloudinary.com"],
           "media-src": ["'self'", "data:", "blob:", "res.cloudinary.com"],
           upgradeInsecureRequests: null,
@@ -15,7 +15,13 @@ export default [
       },
     },
   },
-  "strapi::cors",
+  {
+    name: "strapi::cors",
+    config: {
+      origin: "*", // أو يمكنك تحديد "https://clerk.dev"
+      headers: ["Content-Type", "Authorization", "Origin", "Accept"],
+    },
+  },
   "strapi::poweredBy",
   "strapi::query",
   "strapi::body",
