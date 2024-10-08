@@ -33,7 +33,8 @@ module.exports = async (ctx) => {
 
   // التعامل مع الحدث
   if (event.type === "user.created") {
-    const { email_addresses, first_name, last_name } = event.data;
+    const { email_addresses, first_name, last_name, id, image_url } =
+      event.data;
 
     // الحصول على البريد الإلكتروني
     const email =
@@ -56,6 +57,7 @@ module.exports = async (ctx) => {
               username: email, // يمكنك استخدام اسم المستخدم أو أي قيمة أخرى هنا
               firstName: first_name,
               lastName: last_name,
+              imageUrl: image_url, // تحديث صورة المستخدم
             },
           }
         );
@@ -68,6 +70,7 @@ module.exports = async (ctx) => {
             firstName: first_name,
             lastName: last_name,
             confirmed: true, // إذا كنت ترغب في تأكيد المستخدم تلقائيًا
+            imageUrl: image_url, // إضافة صورة المستخدم
           },
         });
       }
