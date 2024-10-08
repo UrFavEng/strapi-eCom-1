@@ -32,8 +32,12 @@ module.exports = async (ctx) => {
   }
 
   // التعامل مع الحدث
-  if (event.type === "user.updated") {
-    const { id, email } = event.data;
+  if (event.type === "user.created") {
+    const { email_addresses, first_name, last_name } = event.data;
+
+    // الحصول على البريد الإلكتروني
+    const email =
+      email_addresses.length > 0 ? email_addresses[0].email_address : null;
 
     // هنا تقوم بإضافة المنطق الخاص بإضافة المستخدمين أو تحديثهم في Strapi
     try {
@@ -47,13 +51,24 @@ module.exports = async (ctx) => {
         await strapi.query("plugin::users-permissions.user").update(
           { id: existingUser.id },
           {
-            data: { email },
+            data: {
+              email,
+              username: email, // يمكنك استخدام اسم المستخدم أو أي قيمة أخرى هنا
+              firstName: first_name,
+              lastName: last_name,
+            },
           }
         );
       } else {
         // إنشاء مستخدم جديد
         await strapi.query("plugin::users-permissions.user").create({
-          data: { email, username: email },
+          data: {
+            email,
+            username: email, // يمكنك استخدام اسم المستخدم أو أي قيمة أخرى هنا
+            firstName: first_name,
+            lastName: last_name,
+            confirmed: true, // إذا كنت ترغب في تأكيد المستخدم تلقائيًا
+          },
         });
       }
     } catch (error) {
