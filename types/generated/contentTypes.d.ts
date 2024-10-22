@@ -580,18 +580,15 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
   };
   attributes: {
     title: Schema.Attribute.String & Schema.Attribute.Required;
-    description: Schema.Attribute.Blocks;
     banner: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     price: Schema.Attribute.Decimal;
     instantDelivery: Schema.Attribute.Boolean;
-    files: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    whatsIncluded: Schema.Attribute.Blocks;
+    files: Schema.Attribute.Media<'videos', true>;
     orders: Schema.Attribute.Relation<'manyToMany', 'api::order.order'>;
     reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     category: Schema.Attribute.Relation<'manyToOne', 'api::category.category'>;
+    Included: Schema.Attribute.JSON;
+    description: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -623,8 +620,9 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     comment: Schema.Attribute.String & Schema.Attribute.Required;
     product: Schema.Attribute.Relation<'manyToOne', 'api::product.product'>;
     userName: Schema.Attribute.String;
-    userId: Schema.Attribute.String & Schema.Attribute.Unique;
+    userId: Schema.Attribute.String;
     imgUrl: Schema.Attribute.String;
+    reviewed: Schema.Attribute.String & Schema.Attribute.Unique;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

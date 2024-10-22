@@ -16,9 +16,6 @@
       "type": "string",
       "required": true
     },
-    "description": {
-      "type": "blocks"
-    },
     "banner": {
       "type": "media",
       "multiple": false,
@@ -41,14 +38,8 @@
       "multiple": true,
       "required": false,
       "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
+        "videos"
       ]
-    },
-    "whatsIncluded": {
-      "type": "blocks"
     },
     "orders": {
       "type": "relation",
@@ -67,6 +58,12 @@
       "relation": "manyToOne",
       "target": "api::category.category",
       "inversedBy": "products"
+    },
+    "Included": {
+      "type": "json"
+    },
+    "description": {
+      "type": "text"
     }
   }
 }

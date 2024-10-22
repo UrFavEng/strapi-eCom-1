@@ -31,10 +31,14 @@
     },
     "userId": {
       "type": "string",
-      "unique": true
+      "unique": false
     },
     "imgUrl": {
       "type": "string"
+    },
+    "reviewed": {
+      "type": "string",
+      "unique": true
     }
   }
 }
